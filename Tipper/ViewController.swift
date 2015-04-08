@@ -10,12 +10,15 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    // Outlets
     @IBOutlet weak var billField: UITextField!
     @IBOutlet weak var tipValueLabel: UILabel!
     @IBOutlet weak var totalValueLabel: UILabel!
-    
     @IBOutlet weak var tipControl: UISegmentedControl!
-    let tipPercentages = [0.15, 0.18, 0.20]
+    @IBOutlet weak var includeTaxSwitch: UISwitch!
+    
+    let tipPercentages = [0.15, 0.18, 0.20, 0.22]
+    let taxRate = 0.1 //##todo Allow this to be changed in Settings.
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,16 +35,24 @@ class ViewController: UIViewController {
     @IBAction func onEditingChanged(sender: AnyObject) {
         
         var billAmount = (billField.text as NSString).doubleValue
-        var tipPercentage = tipPercentages[tipControl.selectedSegmentIndex]
-        var tip = billAmount * tipPercentage
-        var total = billAmount + tip
+        let tipPercentage = tipPercentages[tipControl.selectedSegmentIndex]
+        
+        if !includeTaxSwitch.on {
+            // Remove tax from tip calculation
+            billAmount = billAmount/(taxRate + 1)
+        }
+        
+        let tip = billAmount * tipPercentage
+        let total = billAmount + tip
         
         tipValueLabel.text = String(format: "$%.2f", tip)
         totalValueLabel.text = String(format: "$%.2f", total)
         
     }
+    
     @IBAction func onTap(sender: AnyObject) {
         view.endEditing(true)
     }
+    
 }
 
