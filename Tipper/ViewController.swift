@@ -11,6 +11,7 @@ import UIKit
 class ViewController: UIViewController {
 
     // Outlets
+    @IBOutlet weak var billSubAmountField: UITextField!
     @IBOutlet weak var billField: UITextField!
     @IBOutlet weak var tipValueLabel: UILabel!
     @IBOutlet weak var totalValueLabel: UILabel!
@@ -28,27 +29,30 @@ class ViewController: UIViewController {
         tipValueLabel.text = "$0.00"
         totalValueLabel.text = "$0.00"
         
+        refreshBillAmount()
+        refreshBillSubAmount()
+        
     }
     
     override func viewDidAppear(animated: Bool) {
         
         super.viewDidAppear(animated)
         
-        // Reload settings
+        // Reload settings and refresh UI elements as needed
         var settingsChanged = false
         let settings = getSettings()
         if taxRate != settings.taxRate{
             taxRate = settings.taxRate
+            refreshBillAmount()
             settingsChanged = true
         }
         if defaultTipIndex != settings.defaultTipIndex {
             defaultTipIndex = settings.defaultTipIndex
-            // If default changed in Settings, change it in tipper view
             tipControl.selectedSegmentIndex = defaultTipIndex
             settingsChanged = true
         }
         if settingsChanged {
-            calculateTipAndTotal()
+            refreshTipAndTotal()
         }
         
     }
@@ -58,9 +62,29 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    @IBAction func onEditingChanged(sender: AnyObject) {
+    @IBAction func onBillEditingChanged(sender: AnyObject) {
         
-        calculateTipAndTotal()
+        refreshBillSubAmount()
+        refreshTipAndTotal()
+        
+    }
+    
+    @IBAction func onBillSubAmountEditingChanged(sender: AnyObject) {
+    
+        refreshBillAmount()
+        refreshTipAndTotal()
+        
+    }
+    
+    @IBAction func onTipValueChanged(sender: AnyObject) {
+        
+        refreshTipAndTotal()
+        
+    }
+    
+    @IBAction func onIncludeTaxSwitchChanged(sender: AnyObject) {
+        
+        refreshTipAndTotal()
         
     }
     
@@ -81,7 +105,21 @@ class ViewController: UIViewController {
         
     }
     
-    func calculateTipAndTotal() {
+    func refreshBillSubAmount(){
+        
+        let newBillSubAmount = (billField.text as NSString).doubleValue / (taxRate + 1)
+        billSubAmountField.text = NSString(format: "%.2f", newBillSubAmount)
+        
+    }
+    
+    func refreshBillAmount(){
+        
+        let newBillAmount = (billSubAmountField.text as NSString).doubleValue * (1 + taxRate)
+        billField.text = NSString(format: "%.2f", newBillAmount)
+        
+    }
+    
+    func refreshTipAndTotal() {
         
         var billAmount = (billField.text as NSString).doubleValue
         let tipPercentage = tipPercentages[tipControl.selectedSegmentIndex]
