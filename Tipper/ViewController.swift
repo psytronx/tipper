@@ -18,13 +18,39 @@ class ViewController: UIViewController {
     @IBOutlet weak var includeTaxSwitch: UISwitch!
     
     let tipPercentages = [0.15, 0.18, 0.20, 0.22]
-    let taxRate = 0.1 //##todo Allow this to be changed in Settings.
+    var defaultTipIndex = 0
+    var taxRate = 0.0
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         tipValueLabel.text = "$0.00"
         totalValueLabel.text = "$0.00"
+        
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        
+        super.viewDidAppear(animated)
+        
+        // Reload settings
+        var settingsChanged = false
+        let settings = getSettings()
+        if taxRate != settings.taxRate{
+            taxRate = settings.taxRate
+            settingsChanged = true
+        }
+        if defaultTipIndex != settings.defaultTipIndex {
+            defaultTipIndex = settings.defaultTipIndex
+            // If default changed in Settings, change it in tipper view
+            tipControl.selectedSegmentIndex = defaultTipIndex
+            settingsChanged = true
+        }
+        if settingsChanged {
+            calculateTipAndTotal()
+        }
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -33,6 +59,29 @@ class ViewController: UIViewController {
     }
 
     @IBAction func onEditingChanged(sender: AnyObject) {
+        
+        calculateTipAndTotal()
+        
+    }
+    
+    @IBAction func onTap(sender: AnyObject) {
+        
+        view.endEditing(true)
+        
+    }
+    
+    // Helper methods
+    
+    func getSettings() -> (defaultTipIndex: Int, taxRate: Double) {
+        
+        let settings = NSUserDefaults.standardUserDefaults()
+        let defaultTipIndex = settings.integerForKey("defaultTipIndex")
+        let taxRate = settings.doubleForKey("taxRate")
+        return (defaultTipIndex: defaultTipIndex, taxRate: taxRate)
+        
+    }
+    
+    func calculateTipAndTotal() {
         
         var billAmount = (billField.text as NSString).doubleValue
         let tipPercentage = tipPercentages[tipControl.selectedSegmentIndex]
@@ -48,10 +97,6 @@ class ViewController: UIViewController {
         tipValueLabel.text = String(format: "$%.2f", tip)
         totalValueLabel.text = String(format: "$%.2f", total)
         
-    }
-    
-    @IBAction func onTap(sender: AnyObject) {
-        view.endEditing(true)
     }
     
 }

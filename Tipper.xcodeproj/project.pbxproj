@@ -13,6 +13,7 @@
 		5234A3941AD4602500AFECB0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5234A3931AD4602500AFECB0 /* Images.xcassets */; };
 		5234A3971AD4602500AFECB0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5234A3951AD4602500AFECB0 /* LaunchScreen.xib */; };
 		5234A3A31AD4602600AFECB0 /* TipperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5234A3A21AD4602600AFECB0 /* TipperTests.swift */; };
+		5234A3AE1AD4B54400AFECB0 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5234A3AD1AD4B54400AFECB0 /* SettingsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +37,7 @@
 		5234A39C1AD4602600AFECB0 /* TipperTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TipperTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5234A3A11AD4602600AFECB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5234A3A21AD4602600AFECB0 /* TipperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipperTests.swift; sourceTree = "<group>"; };
+		5234A3AD1AD4B54400AFECB0 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,8 +79,8 @@
 		5234A3891AD4602500AFECB0 /* Tipper */ = {
 			isa = PBXGroup;
 			children = (
+				5234A3AC1AD4B50500AFECB0 /* View Controllers */,
 				5234A38C1AD4602500AFECB0 /* AppDelegate.swift */,
-				5234A38E1AD4602500AFECB0 /* ViewController.swift */,
 				5234A3901AD4602500AFECB0 /* Main.storyboard */,
 				5234A3931AD4602500AFECB0 /* Images.xcassets */,
 				5234A3951AD4602500AFECB0 /* LaunchScreen.xib */,
@@ -110,6 +112,15 @@
 				5234A3A11AD4602600AFECB0 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		5234A3AC1AD4B50500AFECB0 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				5234A38E1AD4602500AFECB0 /* ViewController.swift */,
+				5234A3AD1AD4B54400AFECB0 /* SettingsViewController.swift */,
+			);
+			name = "View Controllers";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -214,6 +225,7 @@
 			files = (
 				5234A38F1AD4602500AFECB0 /* ViewController.swift in Sources */,
 				5234A38D1AD4602500AFECB0 /* AppDelegate.swift in Sources */,
+				5234A3AE1AD4B54400AFECB0 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

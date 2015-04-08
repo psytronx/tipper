@@ -16,6 +16,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+        // Set default settings
+        let defaults = NSUserDefaults.standardUserDefaults()
+        let defaultValues  = ["defaultTipIndex": 1, "taxRate": 0.1]
+        defaults.registerDefaults(defaultValues)
+        
         return true
     }
 
