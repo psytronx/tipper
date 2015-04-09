@@ -14,6 +14,7 @@
 		5234A3971AD4602500AFECB0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5234A3951AD4602500AFECB0 /* LaunchScreen.xib */; };
 		5234A3A31AD4602600AFECB0 /* TipperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5234A3A21AD4602600AFECB0 /* TipperTests.swift */; };
 		5234A3AE1AD4B54400AFECB0 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5234A3AD1AD4B54400AFECB0 /* SettingsViewController.swift */; };
+		523BB2161AD6E62800C2CC26 /* PerPersonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523BB2151AD6E62800C2CC26 /* PerPersonViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,7 @@
 		5234A3A11AD4602600AFECB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5234A3A21AD4602600AFECB0 /* TipperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipperTests.swift; sourceTree = "<group>"; };
 		5234A3AD1AD4B54400AFECB0 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		523BB2151AD6E62800C2CC26 /* PerPersonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PerPersonViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +121,7 @@
 			children = (
 				5234A38E1AD4602500AFECB0 /* ViewController.swift */,
 				5234A3AD1AD4B54400AFECB0 /* SettingsViewController.swift */,
+				523BB2151AD6E62800C2CC26 /* PerPersonViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -224,6 +227,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5234A38F1AD4602500AFECB0 /* ViewController.swift in Sources */,
+				523BB2161AD6E62800C2CC26 /* PerPersonViewController.swift in Sources */,
 				5234A38D1AD4602500AFECB0 /* AppDelegate.swift in Sources */,
 				5234A3AE1AD4B54400AFECB0 /* SettingsViewController.swift in Sources */,
 			);
@@ -417,6 +421,7 @@
 				5234A3A81AD4602600AFECB0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5234A3A91AD4602600AFECB0 /* Build configuration list for PBXNativeTarget "TipperTests" */ = {
 			isa = XCConfigurationList;
@@ -425,6 +430,7 @@
 				5234A3AB1AD4602600AFECB0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
