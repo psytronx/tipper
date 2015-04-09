@@ -11,14 +11,19 @@ import UIKit
 class PerPersonViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var numberOfPeopleField: UITextField!
-    @IBOutlet weak var SharedCostField: UITextField!
+    @IBOutlet weak var sharedCostField: UITextField!
     @IBOutlet weak var peopleTable: UITableView!
+    @IBOutlet weak var groupIsPayingValueLabel: UILabel!
+    @IBOutlet weak var billTotalValueLabel: UILabel!
+    @IBOutlet weak var shortByValueLabel: UILabel!
+    @IBOutlet weak var shortByLabel: UILabel!
     
     // State
-    var billSubAmount:Double = 100.0 // From Tipper view controller
+    var billSubAmount:Double = 100.00 // From Tipper view controller
+    var billTotal:Double = 120.00 // From Tipper view controller
     var taxRate:Double = 0.1 // From Tipper view controller
     var isTaxIncluded = true // From Tipper view controller
-    var tipPercentage:Double = 0.1 // From Tipper view controller
+    var tipPercentage:Double = 0.15 // From Tipper view controller
     var numberOfPeople = 1
     var sharedCost:Double = 0.0
     var peopleSubAmounts:[Double] = [0.0]
@@ -70,7 +75,7 @@ class PerPersonViewController: UIViewController, UITableViewDelegate, UITableVie
             // If number is greater than 0, accept the new value and refresh the table
             numberOfPeople = newNumberOfPeople!
             resetPeopleSubAmounts(numberOfPeople, billSubAmount:billSubAmount, sharedCost:sharedCost)
-            peopleTable.reloadData()
+            refreshView()
         }
         
     }
@@ -140,7 +145,7 @@ class PerPersonViewController: UIViewController, UITableViewDelegate, UITableVie
         
     }
     
-    // Given sub amount and other inputs, calculate tip, tax, shared-cost, and total amount
+    // Given sub amount, calculate tip, tax, shared-cost, and total amount
     // payed by one person
     func calculateAmountsForPerson (personSubAmount:Double)
         -> (personSharedCost:Double, personTaxAmount:Double, personTipAmount:Double, personTotalAmount:Double) {
@@ -168,6 +173,29 @@ class PerPersonViewController: UIViewController, UITableViewDelegate, UITableVie
     
     // Refresh the table view and other visual elements
     func refreshView () {
+        
+        // Refresh table view
+        peopleTable.reloadData()
+        
+        // Refresh "Group is Paying" value
+        var groupIsPaying:Double = 0.00
+        for personSubAmount in peopleSubAmounts {
+            groupIsPaying += calculateAmountsForPerson(personSubAmount).personTotalAmount
+        }
+        groupIsPayingValueLabel.text = String(format:"$%.2f", groupIsPaying)
+        
+        // Refresh "Total" value
+        billTotalValueLabel.text = String(format:"$%.2f", billTotal)
+        
+        // Refresh "Short By/ Over" value
+        var difference = billTotal - groupIsPaying
+        if difference > 0{
+            shortByLabel.text = "Underpaying by "
+            shortByValueLabel.text = String(format:"$%.2f", difference)
+        }else{
+            shortByLabel.text = "Overpaying by "
+            shortByValueLabel.text = String(format:"$%.2f", -1 * difference)
+        }
         
     }
     

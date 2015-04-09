@@ -162,6 +162,14 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="1" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LgA-Qv-rfQ">
+                                <rect key="frame" x="204" y="83" width="100" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                <connections>
+                                    <action selector="onNumberOfPeopleValueChanged:" destination="YcT-vT-qIb" eventType="editingDidEnd" id="Xpm-cN-VoK"/>
+                                </connections>
+                            </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Cost Shared by All (Before Tax)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vs0-5T-tzT">
                                 <rect key="frame" x="16" y="135" width="238" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -219,20 +227,14 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Total" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kLQ-XA-lxC">
-                                <rect key="frame" x="16" y="497" width="66" height="36"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Desired Total" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kLQ-XA-lxC">
+                                <rect key="frame" x="16" y="497" width="103" height="36"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Short by" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ML2-CB-BmM">
-                                <rect key="frame" x="16" y="524" width="67" height="36"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="$1.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yjC-fI-80T">
-                                <rect key="frame" x="138" y="524" width="166" height="36"/>
+                                <rect key="frame" x="16" y="524" width="140" height="36"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -247,14 +249,12 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="1" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LgA-Qv-rfQ">
-                                <rect key="frame" x="204" y="83" width="100" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
-                                <connections>
-                                    <action selector="onNumberOfPeopleValueChanged:" destination="YcT-vT-qIb" eventType="editingDidEnd" id="Xpm-cN-VoK"/>
-                                </connections>
-                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="$1.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yjC-fI-80T">
+                                <rect key="frame" x="138" y="524" width="166" height="36"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
@@ -270,9 +270,13 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="SharedCostField" destination="zLL-6w-R1L" id="b34-NZ-n0B"/>
+                        <outlet property="billTotalValueLabel" destination="h5j-iV-WZm" id="Qxf-by-1mD"/>
+                        <outlet property="groupIsPayingValueLabel" destination="ScU-5u-EWc" id="09p-hQ-rDc"/>
                         <outlet property="numberOfPeopleField" destination="LgA-Qv-rfQ" id="rrz-Iu-raK"/>
                         <outlet property="peopleTable" destination="IGF-z1-FQ7" id="mcd-1v-AAy"/>
+                        <outlet property="sharedCostField" destination="zLL-6w-R1L" id="Cju-9Q-VtT"/>
+                        <outlet property="shortByLabel" destination="ML2-CB-BmM" id="gkj-ec-bsf"/>
+                        <outlet property="shortByValueLabel" destination="yjC-fI-80T" id="aAd-co-vfO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xMB-ST-AjJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
