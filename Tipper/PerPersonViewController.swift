@@ -26,7 +26,7 @@ class PerPersonViewController: UIViewController, UITableViewDelegate, UITableVie
     var tipPercentage:Double = 0.15 // From Tipper view controller
     var numberOfPeople = 1
     var sharedCost:Double = 0.0
-    var peopleSubAmounts:[Double] = [0.0]
+    var peopleSubAmounts:[Double] = []
     
     // MARK: - ViewController Methods
 
@@ -41,8 +41,12 @@ class PerPersonViewController: UIViewController, UITableViewDelegate, UITableVie
         
         super.viewDidAppear(animated)
         
+        // todo Try to load previous values of peopleSubAmounts
+        // todo If peopleSubAmounts has not been populated yet, calculate this
         
     }
+    
+    // todo Persist peopleSubAmounts and other values before view disappears
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -52,7 +56,7 @@ class PerPersonViewController: UIViewController, UITableViewDelegate, UITableVie
     
     // MARK: - Event Callbacks
     
-    @IBAction func onNumberOfPeopleValueChanged(sender: AnyObject) {
+    @IBAction func onNumberOfPeopleEditingDidEnd(sender: AnyObject) {
         
         // Setup alert
         let alertController = UIAlertController(title: "Invalid value", message:
@@ -77,6 +81,13 @@ class PerPersonViewController: UIViewController, UITableViewDelegate, UITableVie
             resetPeopleSubAmounts(numberOfPeople, billSubAmount:billSubAmount, sharedCost:sharedCost)
             refreshView()
         }
+        
+    }
+    
+    @IBAction func onSharedCostEditingDidEnd(sender: AnyObject) {
+        
+        sharedCost = (sharedCostField.text as NSString).doubleValue
+        refreshView()
         
     }
     

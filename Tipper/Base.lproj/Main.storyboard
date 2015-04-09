@@ -167,7 +167,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                 <connections>
-                                    <action selector="onNumberOfPeopleValueChanged:" destination="YcT-vT-qIb" eventType="editingDidEnd" id="Xpm-cN-VoK"/>
+                                    <action selector="onNumberOfPeopleEditingDidEnd:" destination="YcT-vT-qIb" eventType="editingDidEnd" id="Gd8-eG-4Ap"/>
                                 </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Cost Shared by All (Before Tax)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vs0-5T-tzT">
@@ -180,6 +180,9 @@
                                 <rect key="frame" x="16" y="164" width="288" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                <connections>
+                                    <action selector="onSharedCostEditingDidEnd:" destination="YcT-vT-qIb" eventType="editingDidEnd" id="azx-es-e6A"/>
+                                </connections>
                             </textField>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="IGF-z1-FQ7">
                                 <rect key="frame" x="16" y="218" width="288" height="238"/>
