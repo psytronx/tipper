@@ -28,21 +28,21 @@ class PerPersonViewController: UIViewController, UITableViewDelegate, UITableVie
     var sharedCost:Double = 0.0
     var peopleSubAmounts:[Double] = []
     
-    // MARK: - ViewController Methods
+    // MARK: - UIViewController Methods
 
     override func viewDidLoad() {
         
         super.viewDidLoad()
         
+        // todo Try to load previous values of peopleSubAmounts. If peopleSubAmounts has not been populated yet, calculate this
+        resetPeopleSubAmounts(numberOfPeople, billSubAmount: billSubAmount, sharedCost: sharedCost)
+        refreshView()
         
     }
     
     override func viewDidAppear(animated: Bool) {
         
         super.viewDidAppear(animated)
-        
-        // todo Try to load previous values of peopleSubAmounts
-        // todo If peopleSubAmounts has not been populated yet, calculate this
         
     }
     
@@ -199,13 +199,13 @@ class PerPersonViewController: UIViewController, UITableViewDelegate, UITableVie
         billTotalValueLabel.text = String(format:"$%.2f", billTotal)
         
         // Refresh "Short By/ Over" value
-        var difference = billTotal - groupIsPaying
-        if difference > 0{
+        var difference = groupIsPaying - billTotal
+        if difference < 0{
             shortByLabel.text = "Underpaying by "
-            shortByValueLabel.text = String(format:"$%.2f", difference)
+            shortByValueLabel.text = String(format:"$%.2f", -1 * difference)
         }else{
             shortByLabel.text = "Overpaying by "
-            shortByValueLabel.text = String(format:"$%.2f", -1 * difference)
+            shortByValueLabel.text = String(format:"$%.2f", difference)
         }
         
     }

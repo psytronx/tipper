@@ -40,7 +40,7 @@
                                     <segment title="22%"/>
                                 </segments>
                                 <connections>
-                                    <action selector="onTipValueChanged:" destination="vXZ-lx-hvc" eventType="editingChanged" id="nPS-a9-cf1"/>
+                                    <action selector="onTipValueChanged:" destination="vXZ-lx-hvc" eventType="valueChanged" id="fvG-7V-49q"/>
                                 </connections>
                             </segmentedControl>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Tip Percentage" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FCc-XO-Uce">
