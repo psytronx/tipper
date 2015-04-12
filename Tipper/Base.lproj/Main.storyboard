@@ -7,7 +7,7 @@
         <!--Tipper-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController title="Tipper" id="vXZ-lx-hvc" customClass="ViewController" customModule="Tipper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Tipper" id="vXZ-lx-hvc" customClass="TipperViewController" customModule="Tipper" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="wNq-rF-1zY"/>
                         <viewControllerLayoutGuide type="bottom" id="BGf-I8-gNf"/>

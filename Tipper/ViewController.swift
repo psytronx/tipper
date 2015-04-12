@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class TipperViewController: UIViewController {
 
     // Outlets
     @IBOutlet weak var billSubAmountField: UITextField!

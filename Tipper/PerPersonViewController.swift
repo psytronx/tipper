@@ -150,6 +150,7 @@ class PerPersonViewController: UIViewController, UITableViewDelegate, UITableVie
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         performSegueWithIdentifier("perPersonToPersonDetails", sender: self)
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
     }
     
