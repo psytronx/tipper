@@ -56,6 +56,20 @@ class PersonDetailsViewController: UIViewController {
     
     // MARK: - Event Handlers
     
+    @IBAction func onPersonSubAmountEditingDidBegin(sender: AnyObject) {
+        
+        if personSubAmount == 0 {
+            personSubAmountField.text = ""
+        }
+        
+    }
+    
+    @IBAction func onPersonSubAmountEditingDidEnd(sender: AnyObject) {
+
+        refreshView()
+    
+    }
+    
     @IBAction func onPersonSubAmountEditingChanged(sender: AnyObject) {
         
         personSubAmount = (personSubAmountField.text as NSString).doubleValue
@@ -101,7 +115,7 @@ class PersonDetailsViewController: UIViewController {
     func refreshView (skipPersonSubAmountField: Bool = false) {
         
         title = "Person \(personIndex + 1)'s Details"
-        personSubAmountLabel.text = "Cost of Person \(personIndex + 1)'s Portion (Pre-tax)"
+        personSubAmountLabel.text = "Cost of Person \(personIndex + 1)'s Order (Before Tax)"
         if (!skipPersonSubAmountField){
             personSubAmountField.text = String(format: "%.2f", personSubAmount)
         }

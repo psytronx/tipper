@@ -78,6 +78,34 @@ class ViewController: UIViewController {
     
     // MARK: - Event Callbacks
     
+    @IBAction func onBillSubAmountEditingDidBegin(sender: AnyObject) {
+    
+        if billSubAmount == 0 {
+            billSubAmountField.text = ""
+        }
+        
+    }
+    
+    @IBAction func onBillSubAmountEditingDidEnd(sender: AnyObject) {
+        
+        refreshSubAmountField()
+        
+    }
+    
+    @IBAction func onBillAmountEditingDidBegin(sender: AnyObject) {
+        
+        if billAmount == 0 {
+            billField.text = ""
+        }
+        
+    }
+    
+    @IBAction func onBillAmountEditingDidEnd(sender: AnyObject) {
+    
+        refreshAmountField()
+    
+    }
+    
     @IBAction func onBillSubAmountEditingChanged(sender: AnyObject) {
     
         billSubAmount = (billSubAmountField.text as NSString).doubleValue
@@ -126,8 +154,8 @@ class ViewController: UIViewController {
         
         // Send over state values to next view controller
         if(segue.identifier == "tipperToPerPerson"){
-            var navController = segue.destinationViewController as UINavigationController
-            var controller = navController.topViewController as PerPersonViewController
+            var navController = segue.destinationViewController as! UINavigationController
+            var controller = navController.topViewController as! PerPersonViewController
             controller.billSubAmount = billSubAmount
             controller.billTotal = total
             controller.taxRate = taxRate
@@ -178,13 +206,13 @@ class ViewController: UIViewController {
     // Refresh visual elements
     func refreshSubAmountField () {
         
-        billSubAmountField.text = NSString(format: "%.2f", billSubAmount)
+        billSubAmountField.text = NSString(format: "%.2f", billSubAmount) as String
     }
     
     
     func refreshAmountField () {
         
-        billField.text = NSString(format: "%.2f", billAmount)
+        billField.text = NSString(format: "%.2f", billAmount) as String
     }
     
     

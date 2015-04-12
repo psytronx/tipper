@@ -85,6 +85,17 @@ class PerPersonViewController: UIViewController, UITableViewDelegate, UITableVie
         
     }
     
+    @IBAction func onSharedCostEditingDidBegin(sender: AnyObject) {
+        
+        if sharedCost == 0 {
+            sharedCostField.text = ""
+        }
+        else{
+            sharedCostField.text = String(format:"%.2f", sharedCost)
+        }
+        
+    }
+    
     @IBAction func onSharedCostEditingDidEnd(sender: AnyObject) {
         
         sharedCost = (sharedCostField.text as NSString).doubleValue
@@ -123,7 +134,7 @@ class PerPersonViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! UITableViewCell
         if let textLabel = cell.textLabel{
             textLabel.text = String(format: "Person %d pays ", indexPath.row + 1);
         }
@@ -149,8 +160,8 @@ class PerPersonViewController: UIViewController, UITableViewDelegate, UITableVie
         
         // Deal with table cell selection
         if(touch.view.isDescendantOfView(peopleTable)) {
-            sharedCost = (sharedCostField.text as NSString).doubleValue
-            refreshView()
+//            sharedCost = (sharedCostField.text as NSString).doubleValue
+//            refreshView()
             view.endEditing(true)
             return false;
         }
@@ -176,7 +187,7 @@ class PerPersonViewController: UIViewController, UITableViewDelegate, UITableVie
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier == "perPersonToPersonDetails"{
-            let pvc = segue.destinationViewController as PersonDetailsViewController
+            let pvc = segue.destinationViewController as! PersonDetailsViewController
             // Pass along state to PersonDetailsViewController
             let indexPath = peopleTable.indexPathForSelectedRow()!
             pvc.personIndex = indexPath.row
@@ -234,6 +245,12 @@ class PerPersonViewController: UIViewController, UITableViewDelegate, UITableVie
     
     // Refresh the table view and other visual elements
     func refreshView () {
+        
+        // Refresh Number of People
+        numberOfPeopleField.text = String(numberOfPeople)
+        
+        // Refresh Cost Shared By Group
+        sharedCostField.text = String(format:"$%.2f", sharedCost)
         
         // Refresh table view
         peopleTable.reloadData()
