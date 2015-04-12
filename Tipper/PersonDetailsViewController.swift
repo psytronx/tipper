@@ -61,6 +61,9 @@ class PersonDetailsViewController: UIViewController {
         if personSubAmount == 0 {
             personSubAmountField.text = ""
         }
+        else{
+            personSubAmountField.text = String(format:"%.2f", personSubAmount)
+        }
         
     }
     
@@ -117,7 +120,7 @@ class PersonDetailsViewController: UIViewController {
         title = "Person \(personIndex + 1)'s Details"
         personSubAmountLabel.text = "Cost of Person \(personIndex + 1)'s Order (Before Tax)"
         if (!skipPersonSubAmountField){
-            personSubAmountField.text = String(format: "%.2f", personSubAmount)
+            personSubAmountField.text = String(format: "$%.2f", personSubAmount)
         }
         personSharedCostValueLabel.text = String(format: "$%.2f", personSharedCost)
         personTaxValueLabel.text = String(format: "$%.2f", personTax)

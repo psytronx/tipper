@@ -83,6 +83,9 @@ class ViewController: UIViewController {
         if billSubAmount == 0 {
             billSubAmountField.text = ""
         }
+        else{
+            billSubAmountField.text = String(format:"%.2f", billSubAmount) // Don't show $ sign when editing
+        }
         
     }
     
@@ -96,6 +99,9 @@ class ViewController: UIViewController {
         
         if billAmount == 0 {
             billField.text = ""
+        }
+        else{
+            billField.text = String(format:"%.2f", billAmount) // Don't show $ sign when editing
         }
         
     }
@@ -206,13 +212,13 @@ class ViewController: UIViewController {
     // Refresh visual elements
     func refreshSubAmountField () {
         
-        billSubAmountField.text = NSString(format: "%.2f", billSubAmount) as String
+        billSubAmountField.text = NSString(format: "$%.2f", billSubAmount) as String
     }
     
     
     func refreshAmountField () {
         
-        billField.text = NSString(format: "%.2f", billAmount) as String
+        billField.text = NSString(format: "$%.2f", billAmount) as String
     }
     
     
