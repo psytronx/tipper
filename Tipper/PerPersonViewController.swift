@@ -211,7 +211,7 @@ class PerPersonViewController: UIViewController, UITableViewDelegate, UITableVie
     func resetPeopleSubAmounts(numberOfPeople: Int, billSubAmount: Double, sharedCost: Double) {
         
         // Re-instantiate array with new sub amount values per person
-        let personSubAmount = (billSubAmount - sharedCost)/Double(numberOfPeople)
+        let personSubAmount = billSubAmount/Double(numberOfPeople)
         peopleSubAmounts = Array<Double>(count:numberOfPeople, repeatedValue: personSubAmount)
         
     }
