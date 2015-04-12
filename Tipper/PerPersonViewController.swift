@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PerPersonViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class PerPersonViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, PersonDetailsViewControllerDelegate, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var numberOfPeopleField: UITextField!
     @IBOutlet weak var sharedCostField: UITextField!
@@ -27,6 +27,7 @@ class PerPersonViewController: UIViewController, UITableViewDelegate, UITableVie
     var numberOfPeople = 1
     var sharedCost:Double = 0.0
     var peopleSubAmounts:[Double] = []
+    
     
     // MARK: - UIViewController Methods
 
@@ -105,6 +106,7 @@ class PerPersonViewController: UIViewController, UITableViewDelegate, UITableVie
         
     }
     
+    
     // MARK: - UITableViewDataSource/Delegate Methods
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -125,7 +127,7 @@ class PerPersonViewController: UIViewController, UITableViewDelegate, UITableVie
         if let textLabel = cell.textLabel{
             textLabel.text = String(format: "Person %d pays ", indexPath.row + 1);
         }
-        let personTotalAmount = calculateAmountsForPerson(peopleSubAmounts[indexPath.row]).personTotalAmount
+        let personTotalAmount = calcAmountsForPerson(peopleSubAmounts[indexPath.row]).personTotalAmount
         if let detailTextLabel = cell.detailTextLabel{
             detailTextLabel.text = String(format: "$%.2f", personTotalAmount);
         }
@@ -134,16 +136,63 @@ class PerPersonViewController: UIViewController, UITableViewDelegate, UITableVie
         
     }
     
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        performSegueWithIdentifier("perPersonToPersonDetails", sender: self)
+        
+    }
+    
+    
+    // MARK: - UIGestureRecognizerDelegate Methods
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+        
+        // Deal with table cell selection
+        if(touch.view.isDescendantOfView(peopleTable)) {
+            sharedCost = (sharedCostField.text as NSString).doubleValue
+            refreshView()
+            view.endEditing(true)
+            return false;
+        }
+        
+        return true; // handle the touch
+        
+    }
+    
+    
+    // MARK: - PersonDetailsViewControllerDelegate Methods
+    
+    func personSubAmountDidChange (personIndex: Int, personSubAmount: Double) {
+        
+        peopleSubAmounts[personIndex] = personSubAmount
+        refreshView()
+        
+    }
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        
+        if segue.identifier == "perPersonToPersonDetails"{
+            let pvc = segue.destinationViewController as PersonDetailsViewController
+            // Pass along state to PersonDetailsViewController
+            let indexPath = peopleTable.indexPathForSelectedRow()!
+            pvc.personIndex = indexPath.row
+            pvc.numberOfPeople = numberOfPeople
+            pvc.personSubAmount = peopleSubAmounts[pvc.personIndex]
+            pvc.taxRate = taxRate
+            pvc.isTaxIncluded = isTaxIncluded
+            pvc.tipPercentage = tipPercentage
+            pvc.isTaxIncluded = isTaxIncluded
+            pvc.tipPercentage = tipPercentage
+            pvc.sharedCost = sharedCost
+            pvc.delegate = self
+        }
+        
     }
-    */
+
     
     // MARK: - Helper Methods
     
@@ -158,7 +207,8 @@ class PerPersonViewController: UIViewController, UITableViewDelegate, UITableVie
     
     // Given sub amount, calculate tip, tax, shared-cost, and total amount
     // payed by one person
-    func calculateAmountsForPerson (personSubAmount:Double)
+    // todo - move this to static class, since it's used in multiple classes
+    func calcAmountsForPerson (personSubAmount:Double)
         -> (personSharedCost:Double, personTaxAmount:Double, personTipAmount:Double, personTotalAmount:Double) {
             
             let personSharedCost = sharedCost/Double(numberOfPeople)
@@ -191,7 +241,7 @@ class PerPersonViewController: UIViewController, UITableViewDelegate, UITableVie
         // Refresh "Group is Paying" value
         var groupIsPaying:Double = 0.00
         for personSubAmount in peopleSubAmounts {
-            groupIsPaying += calculateAmountsForPerson(personSubAmount).personTotalAmount
+            groupIsPaying += calcAmountsForPerson(personSubAmount).personTotalAmount
         }
         groupIsPayingValueLabel.text = String(format:"$%.2f", groupIsPaying)
         
