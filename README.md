@@ -2,6 +2,7 @@ Tipper
 ==================
 
 Tip Calculator app for CodePath
+
 By Roger Hom (roger.c.hom@gmail.com)
 
 Time spent: 40 hours total (20+ hours was spent on implementing cost breakdown per person. This was not required, but I really wanted to implement it.)
