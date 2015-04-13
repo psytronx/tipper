@@ -18,6 +18,10 @@ class PerPersonViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet weak var shortByValueLabel: UILabel!
     @IBOutlet weak var shortByLabel: UILabel!
     
+    // Formatters
+    var currencyFormatter: NSNumberFormatter = NSNumberFormatter()
+    var numberFormatter: NSNumberFormatter = NSNumberFormatter()
+    
     // State
     var billSubAmount:Double = 100.00 // From Tipper view controller
     var billTotal:Double = 120.00 // From Tipper view controller
@@ -30,6 +34,17 @@ class PerPersonViewController: UIViewController, UITableViewDelegate, UITableVie
     
     
     // MARK: - UIViewController Methods
+    
+    required init(coder aDecoder: NSCoder) {
+        
+        super.init(coder: aDecoder)
+        
+        // Init formatters
+        currencyFormatter.numberStyle = NSNumberFormatterStyle.CurrencyStyle
+        numberFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        numberFormatter.maximumFractionDigits = 2
+    
+    }
 
     override func viewDidLoad() {
         
@@ -91,7 +106,7 @@ class PerPersonViewController: UIViewController, UITableViewDelegate, UITableVie
             sharedCostField.text = ""
         }
         else{
-            sharedCostField.text = String(format:"%.2f", sharedCost)
+            sharedCostField.text = numberFormatter.stringFromNumber(sharedCost)
         }
         
     }
@@ -140,7 +155,7 @@ class PerPersonViewController: UIViewController, UITableViewDelegate, UITableVie
         }
         let personTotalAmount = calcAmountsForPerson(peopleSubAmounts[indexPath.row]).personTotalAmount
         if let detailTextLabel = cell.detailTextLabel{
-            detailTextLabel.text = String(format: "$%.2f", personTotalAmount);
+            detailTextLabel.text = currencyFormatter.stringFromNumber(personTotalAmount);
         }
         
         return cell
@@ -251,7 +266,7 @@ class PerPersonViewController: UIViewController, UITableViewDelegate, UITableVie
         numberOfPeopleField.text = String(numberOfPeople)
         
         // Refresh Cost Shared By Group
-        sharedCostField.text = String(format:"$%.2f", sharedCost)
+        sharedCostField.text = currencyFormatter.stringFromNumber(sharedCost)
         
         // Refresh table view
         peopleTable.reloadData()
@@ -261,19 +276,19 @@ class PerPersonViewController: UIViewController, UITableViewDelegate, UITableVie
         for personSubAmount in peopleSubAmounts {
             groupIsPaying += calcAmountsForPerson(personSubAmount).personTotalAmount
         }
-        groupIsPayingValueLabel.text = String(format:"$%.2f", groupIsPaying)
+        groupIsPayingValueLabel.text = currencyFormatter.stringFromNumber(groupIsPaying)
         
         // Refresh "Total" value
-        billTotalValueLabel.text = String(format:"$%.2f", billTotal)
+        billTotalValueLabel.text = currencyFormatter.stringFromNumber(billTotal)
         
         // Refresh "Short By/ Over" value
         var difference = groupIsPaying - billTotal
         if difference < 0{
             shortByLabel.text = "Underpaying by "
-            shortByValueLabel.text = String(format:"$%.2f", -1 * difference)
+            shortByValueLabel.text = currencyFormatter.stringFromNumber(-1 * difference)
         }else{
             shortByLabel.text = "Overpaying by "
-            shortByValueLabel.text = String(format:"$%.2f", difference)
+            shortByValueLabel.text = currencyFormatter.stringFromNumber(difference)
         }
         
     }

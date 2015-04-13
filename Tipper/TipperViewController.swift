@@ -19,6 +19,8 @@ class TipperViewController: UIViewController {
     @IBOutlet weak var includeTaxSwitch: UISwitch!
     
     let tipPercentages = [0.15, 0.18, 0.20, 0.22]
+    var currencyFormatter: NSNumberFormatter = NSNumberFormatter()
+    var numberFormatter: NSNumberFormatter = NSNumberFormatter()
     
     // State
     var defaultTipIndex = 0 // From Settings
@@ -36,6 +38,11 @@ class TipperViewController: UIViewController {
         
         super.init(coder: aDecoder)
         
+        // Init formatters
+        currencyFormatter.numberStyle = NSNumberFormatterStyle.CurrencyStyle
+        numberFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        numberFormatter.maximumFractionDigits = 2
+        
         // Register application active/resign notification observers
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("onApplicationDidBecomeActive"), name: UIApplicationDidBecomeActiveNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("onApplicationResigningActive"), name: UIApplicationWillResignActiveNotification, object: nil)
@@ -49,6 +56,9 @@ class TipperViewController: UIViewController {
     }
     
     func onApplicationDidBecomeActive () {
+        
+        // Refresh currencyFormatter based on current locale, which may have changed in Settings
+        
         
         // Load settings
         let settings = getSettings()
@@ -148,7 +158,7 @@ class TipperViewController: UIViewController {
             billSubAmountField.text = ""
         }
         else{
-            billSubAmountField.text = String(format:"%.2f", billSubAmount) // Don't show $ sign when editing
+            billSubAmountField.text = numberFormatter.stringFromNumber(billSubAmount) // Don't show currency symbol when editing
         }
         
     }
@@ -165,7 +175,7 @@ class TipperViewController: UIViewController {
             billField.text = ""
         }
         else{
-            billField.text = String(format:"%.2f", billAmount) // Don't show $ sign when editing
+            billField.text = numberFormatter.stringFromNumber(billAmount) // Don't show currency symbol when editing
         }
         
     }
@@ -276,21 +286,23 @@ class TipperViewController: UIViewController {
     // Refresh visual elements
     func refreshSubAmountField () {
         
-        billSubAmountField.text = NSString(format: "$%.2f", billSubAmount) as String
+        billSubAmountField.text = currencyFormatter.stringFromNumber(billSubAmount)
+        
     }
     
     
     func refreshAmountField () {
         
-        billField.text = NSString(format: "$%.2f", billAmount) as String
+        billField.text = currencyFormatter.stringFromNumber(billAmount)
+        
     }
     
     
     func refreshTipAndTotal () {
         
         includeTaxSwitch.on = isTaxIncluded
-        tipValueLabel.text = String(format: "$%.2f", tip)
-        totalValueLabel.text = String(format: "$%.2f", total)
+        tipValueLabel.text = currencyFormatter.stringFromNumber(tip)
+        totalValueLabel.text = currencyFormatter.stringFromNumber(total)
         
     }
     

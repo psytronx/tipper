@@ -26,6 +26,10 @@ class PersonDetailsViewController: UIViewController {
     
     var delegate:PersonDetailsViewControllerDelegate? = nil
     
+    // Formatters
+    var currencyFormatter: NSNumberFormatter = NSNumberFormatter()
+    var numberFormatter: NSNumberFormatter = NSNumberFormatter()
+    
     // State
     var personIndex = 0 // From Per Person view controller
     var billSubAmount:Double = 100.00 // From Per Person view controller
@@ -39,6 +43,19 @@ class PersonDetailsViewController: UIViewController {
     var personTax:Double = 0.00
     var personTip:Double = 0.00
     var personTotal:Double = 0.00
+
+    
+    // MARK: - UIViewController methods
+    required init(coder aDecoder: NSCoder) {
+        
+        super.init(coder: aDecoder)
+        
+        // Init formatters
+        currencyFormatter.numberStyle = NSNumberFormatterStyle.CurrencyStyle
+        numberFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        numberFormatter.maximumFractionDigits = 2
+        
+    }
     
     override func viewDidLoad() {
         
@@ -62,7 +79,7 @@ class PersonDetailsViewController: UIViewController {
             personSubAmountField.text = ""
         }
         else{
-            personSubAmountField.text = String(format:"%.2f", personSubAmount)
+            personSubAmountField.text = numberFormatter.stringFromNumber(personSubAmount)
         }
         
     }
@@ -121,13 +138,13 @@ class PersonDetailsViewController: UIViewController {
         title = "Person \(personIndex + 1)'s Details"
         personSubAmountLabel.text = "Cost of Person \(personIndex + 1)'s Order (Before Tax)"
         if (!skipPersonSubAmountField){
-            personSubAmountField.text = String(format: "$%.2f", personSubAmount)
+            personSubAmountField.text = currencyFormatter.stringFromNumber(personSubAmount)
         }
-        personSharedCostValueLabel.text = String(format: "$%.2f", personSharedCost)
-        personTaxValueLabel.text = String(format: "$%.2f", personTax)
-        personTipValueLabel.text = String(format: "$%.2f", personTip)
+        personSharedCostValueLabel.text = currencyFormatter.stringFromNumber(personSharedCost)
+        personTaxValueLabel.text = currencyFormatter.stringFromNumber(personTax)
+        personTipValueLabel.text = currencyFormatter.stringFromNumber(personTip)
         personTotalLabel.text = "Person \(personIndex + 1) Pays"
-        personTotalValue.text = String(format: "$%.2f", personTotal)
+        personTotalValue.text = currencyFormatter.stringFromNumber(personTotal)
         
     }
 
