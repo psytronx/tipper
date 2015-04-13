@@ -21,8 +21,8 @@ class TipperViewController: UIViewController {
     let tipPercentages = [0.15, 0.18, 0.20, 0.22]
     
     // State
-    var defaultTipIndex = 0
-    var taxRate = 0.0
+    var defaultTipIndex = 0 // From Settings
+    var taxRate = 0.0 // From Settings
     var isTaxIncluded = true
     var billSubAmount:Double = 0
     var billAmount:Double = 0
@@ -32,14 +32,77 @@ class TipperViewController: UIViewController {
     
     // MARK: - UIViewController Methods
     
+    required init(coder aDecoder: NSCoder) {
+        
+        super.init(coder: aDecoder)
+        
+        // Register application active/resign notification observers
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("onApplicationDidBecomeActive"), name: UIApplicationDidBecomeActiveNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("onApplicationResigningActive"), name: UIApplicationWillResignActiveNotification, object: nil)
+        
+    }
+    
+    deinit {
+        
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+        
+    }
+    
+    func onApplicationDidBecomeActive () {
+        
+        // Load settings
+        let settings = getSettings()
+        taxRate = settings.taxRate
+        defaultTipIndex = settings.defaultTipIndex
+        
+        // Load bill sub amount and amount if under 10 minutes
+        let savedState = NSUserDefaults.standardUserDefaults()
+        if let billAmountLastSavedDate = savedState.objectForKey("billAmountLastSavedDate") as? NSDate {
+            let now = NSDate()
+            let interval = now.timeIntervalSinceDate(billAmountLastSavedDate)
+            if interval < 60 * 10 {
+                billSubAmount = savedState.doubleForKey("billSubAmount")
+                tipControl.selectedSegmentIndex = savedState.integerForKey("tipIndex")
+                tipPercentage = tipPercentages[savedState.integerForKey("tipIndex")]
+                isTaxIncluded = savedState.boolForKey("isTaxIncluded")
+            }
+            else {
+                // Default values
+                billSubAmount = 0
+                tipControl.selectedSegmentIndex = defaultTipIndex
+                tipPercentage = tipPercentages[defaultTipIndex]
+                isTaxIncluded = true
+            }
+        }
+        else{
+            // If no billAmountLastSavedDate, use default values
+            billSubAmount = 0
+            tipControl.selectedSegmentIndex = defaultTipIndex
+            tipPercentage = tipPercentages[defaultTipIndex]
+            isTaxIncluded = true
+        }
+        recalcBillAmountFromSubAmount()
+        calcTipAndTotal()
+        refreshView()
+    }
+    
+    func onApplicationResigningActive () {
+        
+        // Save state
+        let savedState = NSUserDefaults.standardUserDefaults()
+        savedState.setDouble(billSubAmount, forKey: "billSubAmount")
+        savedState.setInteger(tipControl.selectedSegmentIndex, forKey: "tipIndex")
+        savedState.setBool(isTaxIncluded, forKey: "isTaxIncluded")
+        savedState.setObject(NSDate(), forKey: "billAmountLastSavedDate")
+        
+        savedState.synchronize()
+        
+    }
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        tipValueLabel.text = "$0.00"
-        totalValueLabel.text = "$0.00"
-        
-        tipPercentage = tipPercentages[defaultTipIndex]
         
     }
     
@@ -47,14 +110,14 @@ class TipperViewController: UIViewController {
         
         super.viewDidAppear(animated)
         
-        // Reload settings and refresh UI elements as needed
+        // Reload settings and refresh UI elements if settings were changed
         var settingsChanged = false
         let settings = getSettings()
         // Check if tax rate was changed
         if taxRate != settings.taxRate{
             taxRate = settings.taxRate
             recalcBillAmountFromSubAmount()
-            calcTipAndTotal()
+//            calcTipAndTotal()
             settingsChanged = true
         }
         // Check if default tip percentage was changed
@@ -62,10 +125,11 @@ class TipperViewController: UIViewController {
             defaultTipIndex = settings.defaultTipIndex
             tipControl.selectedSegmentIndex = defaultTipIndex
             tipPercentage = tipPercentages[tipControl.selectedSegmentIndex]
-            calcTipAndTotal()
+//            calcTipAndTotal()
             settingsChanged = true
         }
         if settingsChanged {
+            calcTipAndTotal()
             refreshView()
         }
         
@@ -224,6 +288,7 @@ class TipperViewController: UIViewController {
     
     func refreshTipAndTotal () {
         
+        includeTaxSwitch.on = isTaxIncluded
         tipValueLabel.text = String(format: "$%.2f", tip)
         totalValueLabel.text = String(format: "$%.2f", total)
         

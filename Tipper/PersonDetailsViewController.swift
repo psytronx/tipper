@@ -24,7 +24,7 @@ class PersonDetailsViewController: UIViewController {
     @IBOutlet weak var personTotalLabel: UILabel!
     @IBOutlet weak var personTotalValue: UILabel!
     
-    var delegate:PerPersonViewController! = nil
+    var delegate:PersonDetailsViewControllerDelegate? = nil
     
     // State
     var personIndex = 0 // From Per Person view controller
@@ -78,8 +78,9 @@ class PersonDetailsViewController: UIViewController {
         personSubAmount = (personSubAmountField.text as NSString).doubleValue
         calcAmounts()
         refreshView(skipPersonSubAmountField: true)
-        delegate.personSubAmountDidChange(personIndex, personSubAmount: personSubAmount)
-        
+        if (delegate != nil){
+            delegate!.personSubAmountDidChange(personIndex, personSubAmount: personSubAmount)
+        }
     }
     
     @IBAction func onBackPress(sender: AnyObject) {
