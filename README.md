@@ -1,7 +1,7 @@
 Tipper
 ==================
 
-Tip Calculator app for CodePath
+Tip Calculator app
 
 By Roger Hom (roger.c.hom@gmail.com)
 
